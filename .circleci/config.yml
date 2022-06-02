@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  docker-build:
+    machine:
+      # to use Docker 20.10.14
+      # see https://circleci.com/docs/2.0/configuration-reference/#available-linux-machine-images
+      # image: ubuntu-2004:2022.04.1
+      image: ubuntu-2004:202010-01
+    steps:
+    - checkout
+    - run:
+        name: Inspect Docker
+        command: docker version
+    # - run:
+    #     command: |
+    #       for dir in "$HOME/.ivy2/cache" "$HOME/.cache/coursier/v1" "$HOME/.sbt"; do
+    #         if [[ -e "$dir" ]]; then
+    #           rm -rfv "$dir"
+    #         fi
+    #       done
+    #     name: Deleting cache directories
+    - run:
+        command: |
+          docker build --pull --build-arg SDK_VERSION=$SDK_VERSION -f Dockerfile --tag "temu-sdk:${SDK_VERSION}" .
+        name: Docker build
+        environment:
+          SDK_VERSION: '2.2.0'
+          DOCKER_BUILDKIT: 1
+    - run: docker image ls
+    environment:
+      - EXECUTOR_JVM_HEAP_SIZE: 8000M
+      - EXECUTOR_JVM_METASPACE_SIZE: 1600M
+      - EXECUTOR_NUM_CPUS: 4
+    resource_class: large
+
+workflows:
+  main:
+    jobs:
+      - docker-deploy
