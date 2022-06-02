@@ -5,8 +5,8 @@ jobs:
     machine:
       # to use Docker 20.10.14
       # see https://circleci.com/docs/2.0/configuration-reference/#available-linux-machine-images
-      # image: ubuntu-2004:2022.04.1
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2004:2022.04.1
+      # image: ubuntu-2004:202010-01
     steps:
     - checkout
     - run:
