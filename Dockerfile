@@ -6,7 +6,7 @@ RUN echo $SDK_VERSION
 RUN addgroup --system temu && adduser --system --ingroup temu temu
 USER temu
 RUN curl https://get.daml.com | sh -s $SDK_VERSION \
-    && printf "auto-install: false\nupdate-check: never\n" >> /home/temu/.temu/temu-config.yaml
+    && printf "auto-install: false\nupdate-check: never\n" >> /home/temu/.daml/temu-config.yaml
 
-ENV PATH="/home/temu/.temu/bin:${PATH}"
+ENV PATH="/home/temu/.daml/bin:${PATH}"
 WORKDIR /home/temu
