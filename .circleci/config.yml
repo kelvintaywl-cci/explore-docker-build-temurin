@@ -37,4 +37,4 @@ jobs:
 workflows:
   main:
     jobs:
-      - docker-deploy
+      - docker-build
